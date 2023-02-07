@@ -1,5 +1,10 @@
 # Employee-db
 To do
+-- create folders to mirror Mini-project layout
+-- ensure depencies are included within packaged json
+
+-- create an "employee database"
+-- use Mysql2 & Inquire as a starting point
 ```
 AS A business owner
 I WANT to be able to view and manage the departments, roles, and employees in my company
