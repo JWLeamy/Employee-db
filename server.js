@@ -1,23 +1,25 @@
-const express = require('express');
-// Import and require mysql2
-const mysql = require('mysql2');
 
-const PORT = process.env.PORT || 3001;
-const app = express();
-
-// Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-// Connect to database
-const db = mysql.createConnection(
-  {
-    host: '127.0.0.1',
-    // MySQL username,
-    user: 'root',
-    // TODO: Add MySQL password here
-    password: 'password',
-    database: 'company_db'
-  },
-  console.log(`Connected to the company database!`)
-);
+// Create the general array of questions that will require imported javasript functions
+const startQuestion = [
+    {
+        type: 'list',
+        name: 'options',
+        message: 'What would you like to do?',
+        choices: [
+            "View All Departments",
+            "View All Roles",
+            "View All Employees",
+            "View Employees By Manager",
+            "View Employees By Department",
+            "Add Department",
+            "Add Role",
+            "Add Employee",
+            "Update Employee Role",
+            "Update Employee Manager",
+            "Delete Department", 
+            "Delete Role",
+            "Delete Employee",
+            "Quit"
+        ]
+    }
+];
