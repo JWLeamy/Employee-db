@@ -1,7 +1,9 @@
 //import inquireer
 const inquirer = require('inquirer');
-//Run my sql connection in constant variable
 const mysqlConnection = require('../config/connection');
+const start = require('../server.js');
+const logo = require('asciiart-logo');
+
 let managersArr = [];
 let departmentsArr = [];
 let rolesArr = [];
@@ -349,7 +351,7 @@ function addEmployeePrompt(){
     });
 }
 
-/* ----------Add, Change, and target specific roles within Department-----------*/
+/* ----------Add and target specific roles within Department-----------*/
 
 function addRoles(role, salary, department) {
     mysqlConnection.query("INSERT INTO roles (role_title, salary, department_id) VALUES (?, ?, (SELECT id FROM department WHERE department_name = ?));", [role, Number(salary), department], function (err, results) {
@@ -373,3 +375,158 @@ function addRolePrompt(){
         addRoles(response.role, response.salary, response.department);
     });
 }
+
+/* ----------Add specific Departments-----------*/
+
+function addDepartments(department) {
+    console.log("This is the result:" + department)
+    mysqlConnection.query('INSERT INTO department (department_name) VALUES (?);', department, function (err, results) {
+        console.log(`${department} has been successfully added to departments.`);
+        start.start();
+    })
+}
+
+function addDepartmentPrompt() {
+    inquirer.prompt(addDepartment)
+    .then((response) => {
+        addDepartments(response.department);
+    });
+}
+
+/* ----------Add specific Departments-----------*/
+
+function viewEmployeesByDepartment (department) {
+    mysqlConnection.query('SELECT a.id AS employee_id, a.first_name, a.last_name, c.role_title, d.department_name, c.salary, b.first_name AS manager_firstname, b.last_name AS manager_lastname FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE d.department_name = ?;', department, function (err, results) {
+        console.table(results);
+        start.start();
+    })
+};
+
+function departmentPromptToView() {
+    inquirer.prompt(getDepartmentQ)
+    .then((response) => {
+        viewEmployeesByDepartment(response.department);
+    });
+}
+
+function getDepartmentToView (){
+    mysqlConnection.query('SELECT department_name FROM department', function (err, results) {
+        departmentsArr.length = 0;
+        for (const department in results) {
+            if (departmentsArr.indexOf(results[department].department_name) === -1) {
+                departmentsArr.push(results[department].department_name);
+            }
+        }
+        departmentPromptToView();        
+    })
+}
+
+function viewEmployeesByManager(firstName, lastName){
+    mysqlConnection.query('SELECT b.first_name AS manager_firstname, b.last_name AS manager_lastname, a.id AS employee_id, a.first_name, a.last_name, c.role_title, d.department_name, c.salary FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name = ? AND b.last_name = ?;', [firstName, lastName], function (err, results) {
+        console.table(results)
+        start.start();
+    })
+};
+
+function managerPrompt() {
+    inquirer.prompt(getManager)
+    .then((response) => {
+        let fullName = response.manager;
+        const splitName = fullName.split(" ");
+        viewEmployeesByManager(splitName[0], splitName[1]);
+    });
+}
+
+function getManagers() {
+    mysqlConnection.query('SELECT concat(b.first_name, " ", b.last_name) AS manager_name FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id WHERE b.first_name IS NOT NULL AND b.last_name IS NOT NULL;', function (err, results) {
+        managersArr.length = 0;
+        for (const person in results) {
+            if (managersArr.indexOf(results[person].manager_name) === -1) {
+                managersArr.push(results[person].manager_name);
+            } 
+        }
+        managerPrompt();        
+    })
+};
+
+///////////////////////////// VIEW ALL EMPLOYEES ////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+function viewAllEmployees(){
+    mysqlConnection.query('SELECT a.id AS employee_id, a.first_name, a.last_name, c.role_title, d.department_name, c.salary, b.first_name AS manager_firstname, b.last_name AS manager_lastname FROM employee a LEFT JOIN employee b ON a.manager_id = b.id INNER JOIN roles c ON a.role_id = c.id INNER JOIN department d ON d.id = c.department_id;', function (err, results) {
+        console.table(results)
+        start.start();
+    })
+};
+
+///////////////////////////// VIEW ALL ROLES /////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+function viewAllRoles(){
+    mysqlConnection.query('SELECT roles.id AS role_id, roles.role_title, roles.salary, department.department_name FROM roles JOIN department ON roles.department_id = department.id;', function (err, results) {
+        console.table(results)
+        start.start();
+    })
+};
+
+/////////////////////////// VIEW ALL DEPARTMENTS ////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+function viewAllDepartments(){
+    mysqlConnection.query('SELECT * FROM department', function (err, results) {
+        console.table(results)
+        start.start();
+    })
+};
+
+///////////////////////////// START FUNCTION ////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+function dbEnquiry(optionResponse) {
+    switch(optionResponse) {
+        case 'View All Departments':
+            viewAllDepartments();
+        break;
+        case 'View All Roles':
+            viewAllRoles();
+        break;
+        case 'View All Employees':
+            viewAllEmployees();
+        break;
+        case 'View Employees By Manager':
+            getManagers();
+        break;
+        case 'View Employees By Department':
+            getDepartmentToView();
+        break;
+        case 'Add Department':
+            addDepartmentPrompt();
+        break;
+        case 'Add Role':
+            addRolePrompt();
+        break;
+        case 'Add Employee':
+            addEmployeePrompt();
+        break;
+        case 'Update Employee Role':
+            selectEmployeeToUpdate();
+        break;
+        case 'Update Employee Manager':
+            selectManager();
+        break;
+        case 'Delete Department':
+            getDepartmentsToDelete();
+        break;
+        case 'Delete Role':
+            getRolesToDelete();
+        break;
+        case 'Delete Employee':
+            getEmployeesToDelete();
+        break;
+        case 'Quit':
+            quit();
+        break;
+    };
+}
+
+module.exports = dbEnquiry;
