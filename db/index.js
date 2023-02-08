@@ -156,7 +156,7 @@ function quit () {
 
 /* ----------All Employee related functions-----------*/
 
-function deleteEmployee(name) {
+function deleteEmployees(name) {
     const employeeName = name.split(" ");
     mysqlConnection.query('DELETE FROM employee WHERE first_name = ? AND last_name = ?;', [employeeName[0], employeeName[1]], function (err, results) {
         console.table(results);
@@ -173,9 +173,9 @@ function getEmployeesToDelete (){
                 employeesArr.push(results[person].employee_name);
             }
         }
-        inquirer.prompt(deleteEmployeeQs)
+        inquirer.prompt(deleteEmployee)
         .then((response) => {
-            deleteEmployee(response.name);
+            deleteEmployees(response.name);
         });        
     })
 }
@@ -197,7 +197,7 @@ function getRolesToDelete (){
                 rolesArr.push(results[role].role_title);
             }
         }
-        inquirer.prompt(deleteRoleQs)
+        inquirer.prompt(deleteRole)
         .then((response) => {
             deleteRoles(response.role);
         });        
@@ -206,7 +206,7 @@ function getRolesToDelete (){
 
 /* ----------All Department related functions-----------*/
 
-function deleteDepartment(department) {
+function deleteDepartments(department) {
     mysqlConnection.query('DELETE FROM department WHERE department_name = ?;', department, function (err, results) {
         console.table(results);
         start.start();
@@ -221,9 +221,9 @@ function getDepartmentsToDelete (){
                 departmentsArr.push(results[department].department_name);
             }
         }
-        inquirer.prompt(deleteDepartmentQs)
+        inquirer.prompt(deleteDepartment)
         .then((response) => {
-            deleteDepartment(response.department);
+            deleteDepartments(response.department);
         });        
     })
 }
@@ -244,7 +244,7 @@ function updateManager(name, manager){
 })};
 
 function updateManagerPrompt() {
-    inquirer.prompt(updateEmployeeManagerQs)
+    inquirer.prompt(updateEmployeeManager)
     .then((response) => {
         updateManager(response.employee, response.manager);
     });
@@ -274,7 +274,7 @@ function selectManager(){
 /* ----------All Employee related functions-----------*/
 
 
-function updateEmployee(name, role){
+function updateEmployees(name, role){
     const employeeName = name.split(" ");
     mysqlConnection.query('UPDATE employee SET role_id = (SELECT r.id FROM roles r WHERE r.role_title = ?) WHERE employee.first_name = ? AND employee.last_name = ?;', [role, employeeName[0], employeeName[1]], function (err, results) {
         if (err) {
@@ -287,9 +287,9 @@ function updateEmployee(name, role){
 })};
 
 function updateEmployeeRolePrompt() {
-    inquirer.prompt(updateEmployeeQ)
+    inquirer.prompt(updateEmployee)
     .then((response) => {
-        updateEmployee(response.employee, response.role);
+        updateEmployees(response.employee, response.role);
     });
 }
 
@@ -313,7 +313,7 @@ function selectEmployeeToUpdate(){
     });
 };
 
-function addEmployee(fName, lName, role, manager) {
+function addEmployees(fName, lName, role, manager) {
 
     const managerName = manager.split(" ");
 
@@ -343,15 +343,15 @@ function addEmployeePrompt(){
             }
         }     
     });
-    inquirer.prompt(addEmployeeQs)
+    inquirer.prompt(addEmployee)
     .then((response) => {
-        addEmployee(response.fName, response.lName, response.role, response.manager);
+        addEmployees(response.fName, response.lName, response.role, response.manager);
     });
 }
 
 /* ----------Add, Change, and target specific roles within Department-----------*/
 
-function addRole(role, salary, department) {
+function addRoles(role, salary, department) {
     mysqlConnection.query("INSERT INTO roles (role_title, salary, department_id) VALUES (?, ?, (SELECT id FROM department WHERE department_name = ?));", [role, Number(salary), department], function (err, results) {
         console.log(results);
         console.log("This new role has been successfully added to the database!");
@@ -368,8 +368,8 @@ function addRolePrompt(){
             }
         }  
     })
-    inquirer.prompt(addRoleQs)
+    inquirer.prompt(addRole)
     .then((response) => {
-        addRole(response.role, response.salary, response.department);
+        addRoles(response.role, response.salary, response.department);
     });
 }

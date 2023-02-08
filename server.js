@@ -1,4 +1,9 @@
 
+// Packages needed for this application
+const dbEnquiry = require('./db/index');
+const inquirer = require('inquirer');
+const logo = require('asciiart-logo');
+const title = "Employee Tracker";
 // Create the general array of questions that will require imported javasript functions
 const startQuestion = [
     {
@@ -23,3 +28,24 @@ const startQuestion = [
         ]
     }
 ];
+
+function start() {
+    inquirer.prompt(startQuestion)
+    .then((response) => {
+        dbEnquiry(response.options);
+    });
+}
+
+// A function to initialize app
+function init() {
+    console.log(logo({
+        name: "Employee Tracker",
+    }).render());
+    start();
+}
+
+// Function call to initialize app
+init();
+
+
+exports.start = start;
