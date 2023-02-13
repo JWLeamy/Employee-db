@@ -1,5 +1,5 @@
 
-// Packages needed for this application
+// Packages
 const dbEnquiry = require('./db/index');
 const inquirer = require('inquirer');
 const logo = require('asciiart-logo');
@@ -44,7 +44,6 @@ function init() {
     start();
 }
 
-// Function call to initialize app
 init();
 
 
