@@ -11,6 +11,10 @@
 
 A command line application that allows users to create and modify a employee database.
 
+![Screen Shot 2023-02-13 at 5 36 45 PM](https://user-images.githubusercontent.com/111401066/218617393-707cf176-9f52-4514-866e-f1b14be68c89.png)
+![Screen Shot 2023-02-13 at 5 37 32 PM](https://user-images.githubusercontent.com/111401066/218617428-2f047a3a-ba0d-4e2b-96e8-50987443108f.png)
+![Screen Shot 2023-02-13 at 5 37 48 PM](https://user-images.githubusercontent.com/111401066/218617439-9aba47ad-194a-4047-a39b-05bad770ceaa.png)
+
 ## Acceptance Critera
 <details>
 <summary>
