@@ -44,6 +44,15 @@ THEN I am prompted to select an employee to update and their new role and this i
 ```
 
 </details>
+Addtional Features
+
+- Update employee managers.
+
+- View employees by manager.
+
+- View employees by department.
+
+- Delete departments, roles, and employees.
 
 ## Instruction/Usage
 Steps 
