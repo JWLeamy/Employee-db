@@ -1,15 +1,28 @@
-# Employee-database-editor
-To do
--- create folders to mirror Mini-project layout
--- ensure depencies are included within packaged json
+<h1 align="center">Employee Database Editor</h1>
+<p align="center">Primary Tools</p>
+<p align="center">
+    <img src="https://img.shields.io/badge/Javascript-yellow" />
+    <img src="https://img.shields.io/badge/-node.js-green" />
+    <img src="https://img.shields.io/badge/-inquirer-red" >
+    <img src="https://img.shields.io/badge/mySQL-blue"  />
+</p>
 
--- create an "employee database"
--- use Mysql2 & Inquire as a starting point
+## Description
+
+A command line application that allows users to create and modify a employee database.
+
+## Acceptance Critera
+(click for more)
+<details>
+<summary>
+
 ```
 AS A business owner
 I WANT to be able to view and manage the departments, roles, and employees in my company
 SO THAT I can organize and plan my business
 ```
+</summary>
+
 ```
 GIVEN a command-line application that accepts user input
 WHEN I start the application
@@ -28,4 +41,14 @@ WHEN I choose to add an employee
 THEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
 WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database
-``
+```
+
+</details>
+
+## Instruction/Usage
+Steps 
+1. Copy the attached code to your perfered text editor
+2. Within the downloaded repository, install the dependencies within your packaged json ('npm i' in command line)
+3. Make sure your sql files are sourced properly
+4. Start using your database with the command "node server.js"!
+
