@@ -487,7 +487,6 @@ function viewAllDepartments(){
 function dbEnquiry(optionResponse) {
     switch(optionResponse) {
         case 'View All Departments':
-            console.log(5, viewAllDepartments())
             viewAllDepartments();
         break;
         case 'View All Roles':

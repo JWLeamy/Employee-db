@@ -1,4 +1,4 @@
-# Employee-db
+# Employee-database-editor
 To do
 -- create folders to mirror Mini-project layout
 -- ensure depencies are included within packaged json
