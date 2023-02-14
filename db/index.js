@@ -475,9 +475,11 @@ function viewAllRoles(){
 function viewAllDepartments(){
     mysqlConnection.query('SELECT * FROM department', function (err, results) {
         console.table(results)
+        console.log('test 2')
         start.start();
     })
 };
+
 
 ///////////////////////////// START FUNCTION ////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
