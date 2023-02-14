@@ -12,7 +12,6 @@
 A command line application that allows users to create and modify a employee database.
 
 ## Acceptance Critera
-(click for more)
 <details>
 <summary>
 
@@ -21,6 +20,7 @@ AS A business owner
 I WANT to be able to view and manage the departments, roles, and employees in my company
 SO THAT I can organize and plan my business
 ```
+(click for more)
 </summary>
 
 ```
