@@ -61,3 +61,6 @@ Steps
 3. Make sure your sql files are sourced properly
 4. Start using your database with the command "node server.js"!
 
+[Untitled_ Feb 13, 2023 5_28 PM.webm](https://user-images.githubusercontent.com/111401066/218615452-8c189fad-fedd-45ec-acbc-b6e218bf84a0.webm)
+
+
